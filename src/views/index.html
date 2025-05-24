@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>OC Nobreaks - Início</title>
+
+  <!-- Estilo básico + transição -->
+  <style>
+  body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    background: linear-gradient(to right, #232526, #414345);
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    opacity: 0;
+    animation: fadeIn 1s ease forwards;
+  }
+
+  @keyframes fadeIn {
+    to {
+      opacity: 1;
+    }
+  }
+
+  h1 {
+    margin-bottom: 30px;
+  }
+
+  button {
+    background-color: #00bcd4;
+    border: none;
+    color: white;
+    padding: 20px 40px;
+    font-size: 18px;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-top: -20px; /* sobe a imagem */
+  }
+
+  button:hover {
+    background-color: #008ba3;
+    transform: scale(1.05);
+  }
+
+  img.icon {
+    width: 64px;
+    height: 64px;
+  }
+</style>
+
+</head>
+<body>
+  <h1>Bem-vindo ao Sistema de Ordem de Serviço</h1>
+
+  <!-- Botão com imagem -->
+  <button id="btnCadastro">
+    <img src="../public/img/clientes.png" alt="Ícone" class="icon" />
+  </button>
+
+  <script>
+    document.getElementById("btnCadastro").addEventListener("click", () => {
+      window.location.href = "cadastro.html";
+    });
+  </script>
+</body>
+</html>
