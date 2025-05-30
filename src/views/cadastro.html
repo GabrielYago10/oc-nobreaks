@@ -140,8 +140,10 @@
 
       <div class="form-group">
         <label for="inputCNPJ">CNPJ</label>
-        <input type="text" id="inputCNPJ" maxlength="18" required>
+        <input type="text" id="inputCNPJ" maxlength="18" required onblur="validarCNPJ()">
+        <small id="mensagem-cnpj" class="mensagem-erro"></small>
       </div>
+      
 
       <div class="form-group">
         <label for="inputInscricaoEstadual">Inscrição Estadual</label>

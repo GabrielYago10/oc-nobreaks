@@ -30,3 +30,10 @@ img.icon {
 .margin-top {
   margin-top: 10px;
 }
+
+.mensagem-erro {
+  color: red;
+  font-size: 13px;
+  margin-top: 4px;
+}
+

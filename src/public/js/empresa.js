@@ -1,96 +1,99 @@
-// Função para validar CNPJ
-function validarCNPJ(cnpj) {
-  cnpj = cnpj.replace(/[^\d]+/g, '');
+// Validação de CNPJ
+function validarCNPJ() {
+  const cnpj = document.getElementById("inputCNPJ").value.replace(/[^\d]+/g, '');
+  const mensagem = document.getElementById("mensagem-cnpj");
 
-  if (cnpj.length !== 14) return false;
+  if (!cnpj || cnpj.length !== 14) {
+    mensagem.textContent = "CNPJ inválido";
+    return false;
+  }
 
-  // Elimina CNPJs inválidos conhecidos
-  if (/^(\d)\1+$/.test(cnpj)) return false;
-
+  // Validação básica de CNPJ (sem API ainda)
   let tamanho = cnpj.length - 2;
   let numeros = cnpj.substring(0, tamanho);
   let digitos = cnpj.substring(tamanho);
   let soma = 0;
   let pos = tamanho - 7;
-
+  
   for (let i = tamanho; i >= 1; i--) {
     soma += numeros.charAt(tamanho - i) * pos--;
     if (pos < 2) pos = 9;
   }
 
-  let resultado = soma % 11 < 2 ? 0 : 11 - (soma % 11);
-  if (resultado != digitos.charAt(0)) return false;
+  let resultado = soma % 11 < 2 ? 0 : 11 - soma % 11;
+  if (resultado != digitos.charAt(0)) {
+    mensagem.textContent = "CNPJ inválido";
+    return false;
+  }
 
-  tamanho += 1;
+  tamanho = tamanho + 1;
   numeros = cnpj.substring(0, tamanho);
   soma = 0;
   pos = tamanho - 7;
-
   for (let i = tamanho; i >= 1; i--) {
     soma += numeros.charAt(tamanho - i) * pos--;
     if (pos < 2) pos = 9;
   }
 
-  resultado = soma % 11 < 2 ? 0 : 11 - (soma % 11);
-  return resultado == digitos.charAt(1);
+  resultado = soma % 11 < 2 ? 0 : 11 - soma % 11;
+  if (resultado != digitos.charAt(1)) {
+    mensagem.textContent = "CNPJ inválido";
+    return false;
+  }
+
+  mensagem.textContent = ""; // Tudo certo
+  return true;
 }
 
-// Consulta o endereço pelo CEP via API ViaCEP
-document.getElementById("cep").addEventListener("blur", async () => {
-  const cep = document.getElementById("cep").value.replace(/\D/g, "");
+
+// Consulta de CEP com ViaCEP
+function buscarCEP() {
+  const cep = document.getElementById('inputCEPCompany').value.replace(/\D/g, '');
   if (cep.length !== 8) return;
 
-  try {
-    const response = await fetch(`https://viacep.com.br/ws/${cep}/json/`);
-    const data = await response.json();
+  fetch(`https://viacep.com.br/ws/${cep}/json/`)
+    .then(response => response.json())
+    .then(data => {
+      if (data.erro) {
+        alert('CEP não encontrado!');
+        return;
+      }
+      document.getElementById('inputAddressCompany').value = data.logradouro;
+      document.getElementById('inputNeighborhoodCompany').value = data.bairro;
+      document.getElementById('inputCityCompany').value = data.localidade;
+      document.getElementById('inputUFCompany').value = data.uf;
+    })
+    .catch(() => alert('Erro ao buscar o CEP'));
+}
 
-    if (data.erro) {
-      alert("CEP não encontrado.");
-      return;
-    }
+// Função para buscar empresa por nome
+function searchName() {
+  const name = document.getElementById('searchCompany').value;
+  alert(`Buscar empresa: ${name}`);
+}
 
-    document.getElementById("rua").value = data.logradouro;
-    document.getElementById("bairro").value = data.bairro;
-    document.getElementById("cidade").value = data.localidade;
-    document.getElementById("estado").value = data.uf;
-  } catch (error) {
-    console.error("Erro ao buscar CEP:", error);
-    alert("Erro ao buscar o CEP. Tente novamente.");
-  }
-});
-
-// Envio do formulário
-document.getElementById("formCliente").addEventListener("submit", (e) => {
+// Criar empresa
+document.getElementById('btnCreate').addEventListener('click', (e) => {
   e.preventDefault();
-
-  const cnpj = document.getElementById("cnpj").value;
-  if (!validarCNPJ(cnpj)) {
-    alert("CNPJ inválido. Verifique e tente novamente.");
-    return;
-  }
-
-  const cliente = {
-    razaoSocial: document.getElementById("razaoSocial").value,
-    nomeFantasia: document.getElementById("nomeFantasia").value,
-    cnpj,
-    ie: document.getElementById("ie").value,
-    cep: document.getElementById("cep").value,
-    rua: document.getElementById("rua").value,
-    numero: document.getElementById("numero").value,
-    complemento: document.getElementById("complemento").value,
-    bairro: document.getElementById("bairro").value,
-    cidade: document.getElementById("cidade").value,
-    estado: document.getElementById("estado").value,
-    telefone: document.getElementById("telefone").value,
-    celular: document.getElementById("celular").value,
-    email: document.getElementById("email").value,
-    responsavel: document.getElementById("responsavel").value,
-    cargo: document.getElementById("cargo").value,
-    observacoes: document.getElementById("observacoes").value
-  };
-
-  console.log("Cliente cadastrado:", cliente);
-
-  alert("Cliente cadastrado com sucesso!");
-  document.getElementById("formCliente").reset();
+  alert('Empresa adicionada com sucesso!');
 });
+
+// Editar empresa
+document.getElementById('btnUpdate').addEventListener('click', (e) => {
+  e.preventDefault();
+  alert('Empresa atualizada!');
+});
+
+// Excluir empresa
+function removeCompany() {
+  const confirmation = confirm('Tem certeza que deseja excluir esta empresa?');
+  if (confirmation) {
+    alert('Empresa excluída!');
+  }
+}
+
+// Limpar formulário
+function resetForm() {
+  document.getElementById('formCompany').reset();
+  document.getElementById('mensagem-cnpj').textContent = '';
+}
