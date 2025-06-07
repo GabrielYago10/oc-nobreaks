@@ -6,72 +6,113 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>OC Nobreaks - Início</title>
 
-  <!-- Estilo básico + transição -->
   <style>
-  body {
-    margin: 0;
-    padding: 0;
-    font-family: Arial, sans-serif;
-    background: linear-gradient(to right, #232526, #414345);
-    color: white;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    opacity: 0;
-    animation: fadeIn 1s ease forwards;
-  }
-
-  @keyframes fadeIn {
-    to {
-      opacity: 1;
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+      background: linear-gradient(to right, #232526, #414345);
+      color: white;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      opacity: 0;
+      animation: fadeIn 1s ease forwards;
     }
-  }
 
-  h1 {
-    margin-bottom: 30px;
-  }
+    @keyframes fadeIn {
+      to {
+        opacity: 1;
+      }
+    }
 
-  button {
-    background-color: #00bcd4;
-    border: none;
-    color: white;
-    padding: 20px 40px;
-    font-size: 18px;
-    border-radius: 12px;
-    cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.3s ease;
-    display: flex;
-    align-items: center;
-    gap: 15px;
-    margin-top: -20px; /* sobe a imagem */
-  }
+    h1 {
+      margin-bottom: 30px;
+    }
 
-  button:hover {
-    background-color: #008ba3;
-    transform: scale(1.05);
-  }
+    button {
+      background-color: #00bcd4;
+      border: none;
+      color: white;
+      padding: 20px 40px;
+      font-size: 18px;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: background-color 0.3s ease, transform 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      margin: 10px 0;
+    }
 
-  img.icon {
-    width: 64px;
-    height: 64px;
-  }
-</style>
+    button:hover {
+      background-color: #008ba3;
+      transform: scale(1.05);
+    }
 
+    img.icon {
+      width: 64px;
+      height: 64px;
+    }
+
+    footer {
+      position: absolute;
+      bottom: 15px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: white;
+    }
+
+    #statusdb {
+      width: 24px;
+      height: 24px;
+    }
+  </style>
 </head>
 <body>
   <h1>Bem-vindo ao Sistema de Ordem de Serviço</h1>
 
-  <!-- Botão com imagem -->
+  <!-- Botão Cliente -->
   <button id="btnCadastro">
-    <img src="../public/img/clientes.png" alt="Ícone" class="icon" />
+    <img src="../public/img/clientes.png" alt="Ícone Clientes" class="icon" />
   </button>
+
+  <!-- Botão O.S. Nobreaks -->
+  <button id="btnOS">
+    <img src="../public/img/nobrak.png" alt="Ícone Nobreaks" class="icon" />
+  </button>
+
+  <footer>
+    <p id="dataAtual"></p>
+    <img src="../public/img/dboff.png" alt="dbicon" id="statusdb">
+  </footer>
 
   <script>
     document.getElementById("btnCadastro").addEventListener("click", () => {
       window.location.href = "cadastro.html";
     });
+
+    document.getElementById("btnOS").addEventListener("click", () => {
+      window.location.href = "ordem_servico.html"; // Altere para o nome correto da página da O.S.
+    });
+
+    // Atualizar data no rodapé
+    const dataAtual = new Date();
+    document.getElementById("dataAtual").textContent = dataAtual.toLocaleDateString('pt-BR');
+
+    // Simulação do status do banco
+    function atualizarStatusBanco(conectado) {
+      const icone = document.getElementById("statusdb");
+      icone.src = conectado ? "../public/img/dbon.png" : "../public/img/dboff.png";
+    }
+
+    setInterval(() => {
+      const statusAleatorio = Math.random() > 0.5; // simula conexão
+      atualizarStatusBanco(statusAleatorio);
+    }, 5000);
   </script>
 </body>
 </html>

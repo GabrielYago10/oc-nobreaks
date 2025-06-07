@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>O.S. Nobreaks</title>
+
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+      background: linear-gradient(to right, #232526, #414345);
+      color: white;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+      animation: fadeIn 1s ease forwards;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+      }
+      to {
+        opacity: 1;
+      }
+    }
+
+    h1 {
+      margin: 40px 0 20px 0;
+    }
+
+    .container {
+      background-color: rgba(255, 255, 255, 0.05);
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.3);
+      width: 90%;
+      max-width: 800px;
+    }
+
+    label {
+      display: block;
+      margin-top: 15px;
+      font-weight: bold;
+    }
+
+    input, textarea {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      border-radius: 8px;
+      border: none;
+      font-size: 16px;
+    }
+
+    button {
+      margin-top: 20px;
+      padding: 12px 24px;
+      background-color: #00bcd4;
+      color: white;
+      font-size: 16px;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #0097a7;
+    }
+
+    footer {
+      margin-top: auto;
+      padding: 15px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    #statusdb {
+      width: 24px;
+      height: 24px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Cadastro de O.S. - Nobreaks</h1>
+  <div class="container">
+    <label for="cliente">Nome do Cliente:</label>
+    <input type="text" id="cliente" placeholder="Digite o nome do cliente" />
+
+    <label for="descricao">Descrição do Problema:</label>
+    <textarea id="descricao" rows="4" placeholder="Descreva o problema do nobreak..."></textarea>
+
+    <label for="tecnico">Técnico Responsável:</label>
+    <input type="text" id="tecnico" placeholder="Nome do técnico" />
+
+    <button id="btnSalvar">Salvar Ordem de Serviço</button>
+  </div>
+
+  <footer>
+    <p id="dataAtual"></p>
+    <img src="../public/img/dboff.png" alt="Status do Banco" id="statusdb" />
+  </footer>
+
+  <script>
+    // Atualiza data
+    const dataAtual = new Date();
+    document.getElementById("dataAtual").textContent = dataAtual.toLocaleDateString("pt-BR");
+
+    // Simula status do banco
+    function atualizarStatusBanco(conectado) {
+      const icone = document.getElementById("statusdb");
+      icone.src = conectado ? "../public/img/dbon.png" : "../public/img/dboff.png";
+    }
+
+    setInterval(() => {
+      const statusAleatorio = Math.random() > 0.5;
+      atualizarStatusBanco(statusAleatorio);
+    }, 5000);
+
+    // Exemplo de clique no botão salvar
+    document.getElementById("btnSalvar").addEventListener("click", () => {
+      const cliente = document.getElementById("cliente").value;
+      const descricao = document.getElementById("descricao").value;
+      const tecnico = document.getElementById("tecnico").value;
+
+      if (cliente && descricao && tecnico) {
+        alert("Ordem de serviço salva com sucesso!");
+        // Aqui entraria a lógica real para salvar no banco
+      } else {
+        alert("Preencha todos os campos.");
+      }
+    });
+  </script>
+</body>
+</html>
